@@ -1,5 +1,41 @@
 #include "camera-capture.hxx"
 
+namespace
+{
+  constexpr int cv_cap_prop_frame_height =
+#if CV_MAJOR_VERSION < 3
+    CV_CAP_PROP_FRAME_HEIGHT
+#else
+    cv::CAP_PROP_FRAME_HEIGHT
+#endif
+  ;
+  
+  constexpr int cv_cap_prop_frame_width =
+#if CV_MAJOR_VERSION < 3
+    CV_CAP_PROP_FRAME_WIDTH
+#else
+    cv::CAP_PROP_FRAME_WIDTH
+#endif
+  ;
+  
+  constexpr int cv_cap_prop_frame_count =
+#if CV_MAJOR_VERSION < 3
+    CV_CAP_PROP_FRAME_COUNT
+#else
+    cv::CAP_PROP_FRAME_COUNT
+#endif
+  ;
+  
+  constexpr int cv_cap_prop_pos_frames =
+#if CV_MAJOR_VERSION < 3
+    CV_CAP_PROP_POS_FRAMES
+#else
+    cv::CAP_PROP_POS_FRAMES
+#endif
+  ;
+
+}
+
 namespace arisin
 {
   namespace etupirka
@@ -22,15 +58,15 @@ namespace arisin
       // 先に設定可能な場合は設定してからopen（動作が軽くなる可能性がある）
       if(conf.video_file_top.empty())
       {
-        captures[top].set(CV_CAP_PROP_FRAME_HEIGHT, height_);
-        captures[top].set(CV_CAP_PROP_FRAME_WIDTH , width_);
+        captures[top].set(cv_cap_prop_frame_height, height_);
+        captures[top].set(cv_cap_prop_frame_width , width_);
         DLOG(INFO) << "top-cam set height and width";
       }
       
       if(conf.video_file_front.empty())
       {
-        captures[front].set(CV_CAP_PROP_FRAME_HEIGHT, height_);
-        captures[front].set(CV_CAP_PROP_FRAME_WIDTH , width_);
+        captures[front].set(cv_cap_prop_frame_height, height_);
+        captures[front].set(cv_cap_prop_frame_width , width_);
         DLOG(INFO) << "front-cam set height and width";
       }
       
@@ -55,15 +91,15 @@ namespace arisin
       // open後にしか設定できない環境があるのでopen後にも設定
       if(conf.video_file_top.empty())
       {
-        captures[top].set(CV_CAP_PROP_FRAME_HEIGHT, height_);
-        captures[top].set(CV_CAP_PROP_FRAME_WIDTH , width_);
+        captures[top].set(cv_cap_prop_frame_height, height_);
+        captures[top].set(cv_cap_prop_frame_width , width_);
         DLOG(INFO) << "top-cam set height and width";
       }
       
       if(conf.video_file_front.empty())
       {
-        captures[front].set(CV_CAP_PROP_FRAME_HEIGHT, height_);
-        captures[front].set(CV_CAP_PROP_FRAME_WIDTH , width_);
+        captures[front].set(cv_cap_prop_frame_height, height_);
+        captures[front].set(cv_cap_prop_frame_width , width_);
         DLOG(INFO) << "front-cam set height and width";
       }
       
@@ -107,7 +143,7 @@ namespace arisin
       r.front = tmp.clone();
       DLOG(INFO) << "front-cam captured";
       
-      if(!video_file_top_.empty() && captures[top].get(CV_CAP_PROP_POS_FRAMES) == captures[top].get(CV_CAP_PROP_FRAME_COUNT))
+      if(!video_file_top_.empty() && captures[top].get(cv_cap_prop_pos_frames) == captures[top].get(cv_cap_prop_frame_count))
       {
         DLOG(INFO) << "top-cam to reload video file: " << video_file_top_;
         captures[top].release();
@@ -116,7 +152,7 @@ namespace arisin
           LOG(FATAL) << "top-cam can not opened";
       }
       
-      if(!video_file_front_.empty() && captures[front].get(CV_CAP_PROP_POS_FRAMES) == captures[front].get(CV_CAP_PROP_FRAME_COUNT))
+      if(!video_file_front_.empty() && captures[front].get(cv_cap_prop_pos_frames) == captures[front].get(cv_cap_prop_frame_count))
       {
         DLOG(INFO) << "front-cam to reload video file: " << video_file_front_;
         captures[front].release();
