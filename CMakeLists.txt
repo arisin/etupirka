@@ -52,7 +52,11 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_L
 else()
   find_package(Boost 1.49.0 REQUIRED system)
 endif()
-find_package(OpenCV REQUIRED core highgui imgproc)
+
+find_library(OpenCV_core    NAMES opencv_core    HINTS /opt/local/lib)
+find_library(OpenCV_highgui NAMES opencv_highgui HINTS /opt/local/lib)
+find_library(OpenCV_imgproc NAMES opencv_imgproc HINTS /opt/local/lib)
+message(STATUS "OpenCV: ${OpenCV_LIBS}")
 
 find_library(LIBTBB NAMES tbb HINTS /opt/local/lib)
 if(LIBTBB STREQUAL "LIBTBB-NOTFOUND")
@@ -102,7 +106,9 @@ target_link_libraries(etupirka
   ${CMAKE_THREAD_LIBS_INIT}
   ${Boost_LIBRARIES}
   ${SQLITE3_LIB}
-  ${OpenCV_LIBS}
+  ${OpenCV_core}
+  ${OpenCV_highgui}
+  ${OpenCV_imgproc}
   ${LIBTBB}
   ${LIBSQLITE3_LIBRARIES}
 )

@@ -14,6 +14,25 @@
 
 namespace
 {
+  constexpr int cv_window_autosize =
+#if CV_MAJOR_VERSION < 3
+    CV_WINDOW_AUTOSIZE
+#else
+    cv::WINDOW_AUTOSIZE
+#endif
+  ;
+
+  constexpr int cv_window_freeratio =
+#if CV_MAJOR_VERSION < 3
+    CV_WINDOW_FREERATIO
+#else
+    cv::WINDOW_FREERATIO
+#endif
+  ;
+}
+
+namespace
+{
   struct cv_gui_helper_t final
   {
     struct trackbar_data_t final
@@ -51,7 +70,7 @@ namespace
       T window_id;
       std::string window_name;
       int flags = 0;
-      explicit new_window_params_t(const T window_id_, const std::string& window_name_, const int flags_ = CV_WINDOW_AUTOSIZE | CV_WINDOW_FREERATIO)
+      explicit new_window_params_t(const T window_id_, const std::string& window_name_, const int flags_ = cv_window_autosize | cv_window_freeratio)
         : window_id(window_id_), window_name(window_name_), flags(flags_)
       {}
     };
@@ -72,7 +91,7 @@ namespace
     };
     
     template<class T>
-    inline new_window_params_t<T> make_new_window_params(const T window_id, const std::string& window_name, const int flags = CV_WINDOW_AUTOSIZE | CV_WINDOW_FREERATIO)
+    inline new_window_params_t<T> make_new_window_params(const T window_id, const std::string& window_name, const int flags = cv_window_autosize | cv_window_freeratio)
     { return new_window_params_t<T>(window_id, window_name, flags); }
     
     template<class T_trackbar_id, class T_window_id>

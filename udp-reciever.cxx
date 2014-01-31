@@ -1,5 +1,16 @@
 #include "udp-reciever.hxx"
 
+namespace
+{
+  constexpr int cv_load_image_color =
+#if CV_MAJOR_VERSION < 3
+    CV_LOAD_IMAGE_COLOR
+#else
+    1 //cv::LOAD_IMAGE_COLOR
+#endif
+  ;
+}
+
 namespace arisin
 {
   namespace etupirka
@@ -69,8 +80,8 @@ namespace arisin
       }
       while(frame_packets[0].real_data_size > 0 && frame_packets[0].sequence_id == frame_packets[1].sequence_id);
       
-      captured_frames.top   = cv::imdecode(cv::Mat(frame_packets[0].to_vector(), true), CV_LOAD_IMAGE_COLOR);
-      captured_frames.front = cv::imdecode(cv::Mat(frame_packets[1].to_vector(), true), CV_LOAD_IMAGE_COLOR);
+      captured_frames.top   = cv::imdecode(cv::Mat(frame_packets[0].to_vector(), true), cv_load_image_color);
+      captured_frames.front = cv::imdecode(cv::Mat(frame_packets[1].to_vector(), true), cv_load_image_color);
       
       return captured_frames;
     }
