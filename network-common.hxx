@@ -5,6 +5,17 @@
 
 #include <opencv2/core/core.hpp>
 
+namespace
+{
+  constexpr int cv_imwrite_jpeg_quality =
+#if CV_MAJOR_VERSION < 3
+    CV_IMWRITE_JPEG_QUALITY
+#else
+    cv::IMWRITE_JPEG_QUALITY
+#endif
+  ;
+}
+
 namespace arisin
 {
   namespace etupirka
@@ -27,7 +38,7 @@ namespace arisin
       {
         std::vector<uint8_t> buffer;
         
-        cv::imencode(".jpg", m, buffer, { CV_IMWRITE_JPEG_QUALITY, jpeg_quality });
+        cv::imencode(".jpg", m, buffer, { cv_imwrite_jpeg_quality, jpeg_quality });
         
         if(buffer.size() > data_size)
           throw std::runtime_error("encoded frame size is over.");
