@@ -127,6 +127,10 @@ namespace arisin
               {
                 case h("main"    ): conf.mode = mode_t::main;     break;
                 case h("reciever"): conf.mode = mode_t::reciever; break;
+                case h("main-"    ): conf.mode = mode_t::main_m1;     break;
+                case h("reciever+"): conf.mode = mode_t::reciever_p1; break;
+                case h("dummy-main"    ): conf.mode = mode_t::dummy_main;     break;
+                case h("dummy-reciever"): conf.mode = mode_t::dummy_reciever; break;
                 default: conf.mode = mode_t::none;
               }
             }
