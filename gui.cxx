@@ -24,7 +24,15 @@ namespace
 #if CV_MAJOR_VERSION < 3
     CV_GUI_EXPANDED
 #else
-    cv::GUI_EXPANDED
+    0x00000000 //cv::GUI_EXPANDED
+#endif
+  ;
+
+  constexpr int cv_gray2bgr =
+#if CV_MAJOR_VERSION < 3
+    CV_GRAY2BGR
+#else
+    8 //cv::GRAY2BGR
 #endif
   ;
 }
@@ -114,8 +122,8 @@ namespace arisin
       cv::Mat m_ot;
       cv::Mat m_of;
       
-      cv::cvtColor(input.out_top  , m_ot, CV_GRAY2BGR);
-      cv::cvtColor(input.out_front, m_of, CV_GRAY2BGR);
+      cv::cvtColor(input.out_top  , m_ot, cv_gray2bgr);
+      cv::cvtColor(input.out_front, m_of, cv_gray2bgr);
       
       cv_gui_helper.add_axes(m_it);
       cv_gui_helper.add_axes(m_if);
