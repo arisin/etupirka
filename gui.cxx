@@ -2,6 +2,33 @@
 #include "cv_gui_helper.hxx"
 #include "commandline_helper.hxx"
 
+namespace
+{
+  constexpr int cv_window_normal =
+#if CV_MAJOR_VERSION < 3
+    CV_WINDOW_NORMAL
+#else
+    cv::WINDOW_NORMAL
+#endif
+  ;
+
+  constexpr int cv_window_keepratio =
+#if CV_MAJOR_VERSION < 3
+    CV_WINDOW_KEEPRATIO
+#else
+    cv::WINDOW_KEEPRATIO
+#endif
+  ;
+
+  constexpr int cv_gui_expanded =
+#if CV_MAJOR_VERSION < 3
+    CV_GUI_EXPANDED
+#else
+    cv::GUI_EXPANDED
+#endif
+  ;
+}
+
 namespace arisin
 {
   namespace etupirka
@@ -20,12 +47,12 @@ namespace arisin
       DLOG(INFO) << "new_windows";
       
       cv_gui_helper.new_windows
-      ( cv_gui_helper.make_new_window_params( window::in_top      , "top-cam(input)"   , CV_WINDOW_NORMAL | CV_WINDOW_KEEPRATIO | CV_GUI_EXPANDED)
-      , cv_gui_helper.make_new_window_params( window::in_front    , "front-cam(input)" , CV_WINDOW_NORMAL | CV_WINDOW_KEEPRATIO | CV_GUI_EXPANDED)
-      , cv_gui_helper.make_new_window_params( window::out_top     , "top-cam(output)"  , CV_WINDOW_NORMAL | CV_WINDOW_KEEPRATIO | CV_GUI_EXPANDED)
-      , cv_gui_helper.make_new_window_params( window::out_front   , "front-cam(output)", CV_WINDOW_NORMAL | CV_WINDOW_KEEPRATIO | CV_GUI_EXPANDED)
-      , cv_gui_helper.make_new_window_params( window::controller_1, "controller 1"     , CV_WINDOW_NORMAL | CV_WINDOW_FREERATIO | CV_GUI_EXPANDED)
-      , cv_gui_helper.make_new_window_params( window::controller_2, "controller 2"     , CV_WINDOW_NORMAL | CV_WINDOW_FREERATIO | CV_GUI_EXPANDED)
+      ( cv_gui_helper.make_new_window_params( window::in_top      , "top-cam(input)"   , cv_window_normal | cv_window_keepratio | cv_gui_expanded)
+      , cv_gui_helper.make_new_window_params( window::in_front    , "front-cam(input)" , cv_window_normal | cv_window_keepratio | cv_gui_expanded)
+      , cv_gui_helper.make_new_window_params( window::out_top     , "top-cam(output)"  , cv_window_normal | cv_window_keepratio | cv_gui_expanded)
+      , cv_gui_helper.make_new_window_params( window::out_front   , "front-cam(output)", cv_window_normal | cv_window_keepratio | cv_gui_expanded)
+      , cv_gui_helper.make_new_window_params( window::controller_1, "controller 1"     , cv_window_normal | cv_window_keepratio | cv_gui_expanded)
+      , cv_gui_helper.make_new_window_params( window::controller_2, "controller 2"     , cv_window_normal | cv_window_keepratio | cv_gui_expanded)
       );
       
       DLOG(INFO) << "resize in_top";
