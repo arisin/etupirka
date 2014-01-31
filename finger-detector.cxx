@@ -7,6 +7,17 @@
 
 #include "image_processor.hxx"
 
+namespace
+{
+  constexpr int cv_hough_gradient =
+#if CV_MAJOR_VERSION < 3
+    CV_HOUGH_GRADIENT
+#else
+    cv::HOUGH_GRADIENT
+#endif
+  ;
+}
+
 namespace arisin
 {
   namespace etupirka
@@ -142,7 +153,7 @@ namespace arisin
       {
         // circles detector
         cv::HoughCircles
-        ( pre_nail_frame, circles, CV_HOUGH_GRADIENT
+        ( pre_nail_frame, circles, cv_hough_gradient
         , circles_dp_, circles_min_dist_
         , circles_param_1_, circles_param_2_
         , circles_min_radius_, circles_max_radius_

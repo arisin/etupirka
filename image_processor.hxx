@@ -1,12 +1,39 @@
 #pragma once
 
+#if CV_MAJOR_VERSION < 3
+#else
+  #include <opencv2/core/types_c.h>
+#endif
+
 #include <opencv2/core/internal.hpp>
 #include <opencv2/core/core.hpp>
+
+#if CV_MAJOR_VERSION < 3
+#else
+  #include <opencv2/core/utility.hpp>
+  #include <opencv2/core/base.hpp>
+#endif
+
 #include <opencv2/imgproc/imgproc.hpp>
 
 namespace
 {
-
+  constexpr int cv_bgr2hsv =
+#if CV_MAJOR_VERSION < 3
+    CV_BGR2HSV
+#else
+    40 //cv::BGR2HSV
+#endif
+  ;
+  constexpr int cv_stsunsupportedformat =
+#if CV_MAJOR_VERSION < 3
+    CV_StsUnsupportedFormat
+#else
+    -210 //cv::StsUnsupportedFormat
+#endif
+  ;
+  
+  
 #if CV_MAJOR_VERSION < 2 || ( CV_MAJOR_VERSION == 2 && CV_MINOR_VERSION < 4)
   
   class parallel_loop_body
@@ -1105,7 +1132,7 @@ namespace
         else if( src.depth() == CV_32F )
             medianBlur_SortNet<MinMax32f, MinMaxVec32f>( src, dst, ksize );
         else
-            CV_Error(CV_StsUnsupportedFormat, "");
+            CV_Error(cv_stsunsupportedformat, "");
 
         return;
     }
@@ -1135,7 +1162,7 @@ namespace
   {
     cv::Mat hsv;
     src.convertTo(hsv, CV_32F);
-    cv::cvtColor(hsv, hsv, CV_BGR2HSV);
+    cv::cvtColor(hsv, hsv, cv_bgr2hsv);
     
     cv::Mat dst(src.rows, src.cols, CV_8UC1);
     
