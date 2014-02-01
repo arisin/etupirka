@@ -28,6 +28,14 @@ namespace
 #endif
   ;
 
+  constexpr int cv_wnd_prop_autosize =
+#if CV_MAJOR_VERSION < 3
+    CV_WND_PROP_AUTOSIZE
+#else
+    1 //cv::WND_PROP_AUTOSIZE
+#endif
+  ;
+
   constexpr int cv_gray2bgr =
 #if CV_MAJOR_VERSION < 3
     CV_GRAY2BGR
@@ -55,7 +63,7 @@ namespace arisin
       DLOG(INFO) << "new_windows";
       
       cv_gui_helper.new_windows
-      ( cv_gui_helper.make_new_window_params( window::in_top      , "top-cam(input)"   , cv_window_normal | cv_window_keepratio | 16)
+      ( cv_gui_helper.make_new_window_params( window::in_top      , "top-cam(input)"   , cv_window_normal | cv_window_keepratio | cv_gui_expanded)
       , cv_gui_helper.make_new_window_params( window::in_front    , "front-cam(input)" , cv_window_normal | cv_window_keepratio | cv_gui_expanded)
       , cv_gui_helper.make_new_window_params( window::out_top     , "top-cam(output)"  , cv_window_normal | cv_window_keepratio | cv_gui_expanded)
       , cv_gui_helper.make_new_window_params( window::out_front   , "front-cam(output)", cv_window_normal | cv_window_keepratio | cv_gui_expanded)
@@ -63,7 +71,19 @@ namespace arisin
       , cv_gui_helper.make_new_window_params( window::controller_2, "controller 2"     , cv_window_normal | cv_window_keepratio | cv_gui_expanded)
       );
       
-      cv_gui_helper.wait_key_not('\x1b', 1);
+      cv::setWindowProperty(cv_gui_helper.window_name(window::in_top)   , cv_wnd_prop_autosize, cv_window_autosize);
+      cv::setWindowProperty(cv_gui_helper.window_name(window::in_front) , cv_wnd_prop_autosize, cv_window_autosize);
+      cv::setWindowProperty(cv_gui_helper.window_name(window::out_top)  , cv_wnd_prop_autosize, cv_window_autosize);
+      cv::setWindowProperty(cv_gui_helper.window_name(window::out_front), cv_wnd_prop_autosize, cv_window_autosize);
+      
+      {
+        cv::Mat m(conf.camera_capture.height, conf.camera_capture.width, CV_8UC3);
+        cv_gui_helper.show(window::in_top   , m);
+        cv_gui_helper.show(window::in_front , m);
+        cv_gui_helper.show(window::out_top  , m);
+        cv_gui_helper.show(window::out_front, m);
+        cv_gui_helper.wait_key_not('\x1b', 1);
+      }
       
       DLOG(INFO) << "resize in_top";
       cv_gui_helper.resize(window::in_top   , conf.camera_capture.width, conf.camera_capture.height);
@@ -73,6 +93,11 @@ namespace arisin
       cv_gui_helper.resize(window::out_top  , conf.camera_capture.width, conf.camera_capture.height);
       DLOG(INFO) << "resize out_front";
       cv_gui_helper.resize(window::out_front, conf.camera_capture.width, conf.camera_capture.height);
+      
+      cv::setWindowProperty(cv_gui_helper.window_name(window::in_top)   , cv_wnd_prop_autosize, cv_window_normal);
+      cv::setWindowProperty(cv_gui_helper.window_name(window::in_front) , cv_wnd_prop_autosize, cv_window_normal);
+      cv::setWindowProperty(cv_gui_helper.window_name(window::out_top)  , cv_wnd_prop_autosize, cv_window_normal);
+      cv::setWindowProperty(cv_gui_helper.window_name(window::out_front), cv_wnd_prop_autosize, cv_window_normal);
       
       DLOG(INFO) << "move in_top";
       cv_gui_helper.move(window::in_top      ,    0,   0);
