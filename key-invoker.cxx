@@ -30,11 +30,11 @@ namespace arisin
           pressing_keys.erase(key_usb_hid_usage_id);
       }
       
-      // ToDo: libWRP-keyの <USB-HID Usage ID> --> <key_name> 変換機能を用いてkey_usb_hid_usage_idを文字列のキー名に変換
+      // libWRP-keyの <USB-HID Usage ID> --> <key_name> 変換機能を用いてkey_usb_hid_usage_idを文字列のキー名に変換
       const auto& key_helper = WonderRabbitProject::key::key_helper_t::instance();
       const auto key_name =  key_helper.name_from_usb_hid_usage_id(key_usb_hid_usage_id);
       
-      // ToDo: libWRP-keyのwriter_tを用いて文字列のキー名とkey_stateからキーイベントを発行
+      // libWRP-keyのwriter_tを用いて文字列のキー名とkey_stateからキーイベントを発行
       const auto& key_writer = WonderRabbitProject::key::writer_t::instance();
       key_writer(key_name, key_state);
     }
