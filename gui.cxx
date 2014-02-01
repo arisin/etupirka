@@ -55,13 +55,15 @@ namespace arisin
       DLOG(INFO) << "new_windows";
       
       cv_gui_helper.new_windows
-      ( cv_gui_helper.make_new_window_params( window::in_top      , "top-cam(input)"   , cv_window_normal | cv_window_keepratio | cv_gui_expanded)
+      ( cv_gui_helper.make_new_window_params( window::in_top      , "top-cam(input)"   , cv_window_normal | cv_window_keepratio | 16)
       , cv_gui_helper.make_new_window_params( window::in_front    , "front-cam(input)" , cv_window_normal | cv_window_keepratio | cv_gui_expanded)
       , cv_gui_helper.make_new_window_params( window::out_top     , "top-cam(output)"  , cv_window_normal | cv_window_keepratio | cv_gui_expanded)
       , cv_gui_helper.make_new_window_params( window::out_front   , "front-cam(output)", cv_window_normal | cv_window_keepratio | cv_gui_expanded)
       , cv_gui_helper.make_new_window_params( window::controller_1, "controller 1"     , cv_window_normal | cv_window_keepratio | cv_gui_expanded)
       , cv_gui_helper.make_new_window_params( window::controller_2, "controller 2"     , cv_window_normal | cv_window_keepratio | cv_gui_expanded)
       );
+      
+      cv_gui_helper.wait_key_not('\x1b', 1);
       
       DLOG(INFO) << "resize in_top";
       cv_gui_helper.resize(window::in_top   , conf.camera_capture.width, conf.camera_capture.height);
@@ -75,15 +77,15 @@ namespace arisin
       DLOG(INFO) << "move in_top";
       cv_gui_helper.move(window::in_top      ,    0,   0);
       DLOG(INFO) << "move in_front";
-      cv_gui_helper.move(window::in_front    ,    0, 480);
+      cv_gui_helper.move(window::in_front    ,    0, conf.camera_capture.height);
       DLOG(INFO) << "move out_top";
-      cv_gui_helper.move(window::out_top     ,  640,   0);
+      cv_gui_helper.move(window::out_top     ,  conf.camera_capture.width,   0);
       DLOG(INFO) << "move out_front";
-      cv_gui_helper.move(window::out_front   ,  640, 480);
+      cv_gui_helper.move(window::out_front   ,  conf.camera_capture.width, conf.camera_capture.height);
       DLOG(INFO) << "move controller_1";
-      cv_gui_helper.move(window::controller_1, 1280,   0);
+      cv_gui_helper.move(window::controller_1, conf.camera_capture.width * 2,   0);
       DLOG(INFO) << "move controller_2";
-      cv_gui_helper.move(window::controller_2, 1600,   0);
+      cv_gui_helper.move(window::controller_2, conf.camera_capture.width * 2 + 320,   0);
       
       DLOG(INFO) << "new_trackbars";
       cv_gui_helper.new_trackbars
