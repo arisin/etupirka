@@ -455,7 +455,7 @@ namespace arisin
       DLOG(INFO) << "run dummy-main mode main loop";
       
       std::mt19937 rng;
-      std::uniform_int_distribution<uint32_t> distribution(4, 40);
+      std::uniform_int_distribution<uint32_t> distribution(4, 39);
       
       while(is_running_)
       {
@@ -478,7 +478,7 @@ namespace arisin
       DLOG(INFO) << "run dummy-reciever mode main loop";
       
       std::mt19937 rng;
-      std::uniform_int_distribution<uint32_t> distribution(4, 40);
+      std::uniform_int_distribution<uint32_t> distribution(4, 39);
       
       while(is_running_)
       {
