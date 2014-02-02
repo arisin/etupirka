@@ -65,6 +65,9 @@ if(LIBTBB STREQUAL "LIBTBB-NOTFOUND")
 endif()
 message(STATUS "LIBTBB: ${LIBTBB}")
 
+find_package(ImageMagick REQUIRED COMPONENTS Magick++)
+include_directories(${ImageMagick_INCLUDE_DIRS})
+
 find_file(LIBWRPSQLITE3 WonderRabbitProject/SQLite3.hpp
   PATHS
     libWRP-SQLite3/include
@@ -111,6 +114,7 @@ target_link_libraries(etupirka
   ${OpenCV_imgproc}
   ${LIBTBB}
   ${LIBSQLITE3_LIBRARIES}
+  ${ImageMagick_LIBRARIES}
 )
 
 if(APPLE)
