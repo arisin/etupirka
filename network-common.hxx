@@ -3,7 +3,7 @@
 #include <vector>
 #include <array>
 
-#include <opencv2/core/core.hpp>
+#include <Magick++.h>
 
 namespace
 {
@@ -36,15 +36,17 @@ namespace arisin
       
       inline void set_data(const cv::Mat& m, const int jpeg_quality = 60)
       {
-        std::vector<uint8_t> buffer;
+        Magick::Image i(m.cols, m.rows, "BGR", Magick::CharPixel, reinterpret_cast<char*>(m.data));
+        Magick::Blob buffer;
+        i.magick("JPEG");
+        i.quality(jpeg_quality);
+        i.write(&buffer);
         
-        cv::imencode(".jpg", m, buffer, { cv_imwrite_jpeg_quality, jpeg_quality });
-        
-        if(buffer.size() > data_size)
+        if(buffer.length() > data_size)
           throw std::runtime_error("encoded frame size is over.");
         
-        std::copy(std::begin(buffer), std::end(buffer), &data[0]);
-        real_data_size = buffer.size();
+        std::copy(reinterpret_cast<const uint8_t*>(buffer.data()), reinterpret_cast<const uint8_t*>(buffer.data()) + buffer.length(), &data[0]);
+        real_data_size = buffer.length();
       }
       
       inline const uint8_t* data_begin() const { return &data[0]; }
