@@ -55,6 +55,7 @@ namespace arisin
       
       camera_capture_t::captured_frames_t captured_frames;
       frame_packet_t frame_packets[2];
+      frame_packets[0].real_data_size = frame_packets[1].real_data_size = 0;
       
       do
       {
@@ -74,9 +75,11 @@ namespace arisin
         if(error && error != boost::asio::error::message_size)
           throw boost::system::system_error(error);
         
+        DLOG(INFO) << "frame_packet: capture_id(" << int(frame_packet.capture_id) << ") frame_packet.real_data_size(" << frame_packet.real_data_size << ")";
+        
         frame_packets[frame_packet.capture_id] = std::move(frame_packet);
       }
-      while(frame_packets[0].real_data_size > 0 && frame_packets[0].sequence_id == frame_packets[1].sequence_id);
+      while(frame_packets[0].sequence_id != frame_packets[1].sequence_id || frame_packets[0].real_data_size == 0 || frame_packets[1].real_data_size == 0);
       
       captured_frames.top   = cv::imdecode(cv::Mat(frame_packets[0].to_vector(), true), cv_load_image_color);
       captured_frames.front = cv::imdecode(cv::Mat(frame_packets[1].to_vector(), true), cv_load_image_color);
