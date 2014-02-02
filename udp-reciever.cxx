@@ -51,8 +51,6 @@ namespace arisin
     
     camera_capture_t::captured_frames_t udp_reciever_t::recieve_captured_frames()
     {
-      LOG(FATAL) << "NOT IMPLEMENTED";
-      
       using boost::asio::ip::udp;
       
       camera_capture_t::captured_frames_t captured_frames;
