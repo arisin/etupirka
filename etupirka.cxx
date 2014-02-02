@@ -60,12 +60,18 @@ namespace arisin
         return;
       }
       
-      auto t = std::thread([&]()
+      auto t = 
+#if __GNUC__ == 4 &&  __GNUC_MINOR__ < 8
+      boost
+#else
+      std
+#endif
+      ::thread([](bool& is_running)
       {
         std::string buffer;
         std::getline(std::cin, buffer);
-        is_running_ = false;
-      });
+        is_running = false;
+      }, std::ref(is_running_) );
       
       switch(conf_.mode)
       {
