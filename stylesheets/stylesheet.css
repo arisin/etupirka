@@ -421,3 +421,36 @@ Small Device Styles
   }
 
 }
+
+/*----------------------------------*/
+nav ul{
+	margin-left:0;
+	padding-left:0;
+	list-style-type:none;
+}
+
+nav li{
+	float:left;
+	width:100px;
+}
+
+nav a{
+	display:block;
+	padding-top:10px;
+	padding-bottom:10px;
+	text-align:center;
+	text-decoration:none;
+	width:109px;
+}
+
+nav a:hover{
+	background-color:#aaaaaa;
+}
+
+#main_content img{
+	margin-right:10px;
+}
+
+#top_p{
+	padding-top:20px;
+}
